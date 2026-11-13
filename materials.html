@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Materials — Köybaşı Hukuk</title>
+<meta name="description" content="Stone, aluminium, opal glass and the hands that join them. The materials behind every Köybaşı Hukuk object.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080908">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="materials">
+<main>
+  <section class="on-dark" style="background:var(--night);color:var(--paper)" aria-labelledby="materials-title">
+    <div class="shell" style="padding-top:176px;padding-bottom:96px">
+      <div class="reveal">
+        <p class="eyebrow" style="margin-bottom:32px">Materials</p>
+        <h1 id="materials-title" class="display t9" style="max-width:1100px">What a light is made of.</h1>
+        <p class="body" style="margin-top:56px;max-width:500px">We use three materials and a fourth that cannot be held. The first three are chosen to disappear, so the last can be seen.</p>
+      </div>
+    </div>
+    <div class="frame mask" data-par style="height:70svh;min-height:380px;background:var(--night)"><img src="images/materials/intro.svg" alt="A stone sphere half lit in a dark room"></div>
+  </section>
+  <div id="mats"></div>
+  <section style="padding:112px 0;text-align:center">
+    <div class="reveal shell"><p class="lede" style="max-width:640px;margin:0 auto">See what these materials make.</p><a class="link-line" href="objects.html" style="margin-top:48px">Explore Objects</a></div>
+  </section>
+</main>
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+<script>
+window.KH_PAGE = function (KH) {
+  function sec(idx, name, title, paras, src, alt, tone, facts) {
+    return '<section class="msec ' + tone + (tone === "dark" ? " on-dark" : "") + '" aria-labelledby="m' + idx + '">' + KH.parallaxFrame(src, alt, "pic") +
+      '<div class="shell mtxt"><div class="reveal"><p class="eyebrow">' + idx + " — " + name + '</p></div><div><div class="reveal"><h2 id="m' + idx + '" class="display t6">' + title + '</h2></div>' +
+      '<div class="reveal ps body">' + paras.map(function (p) { return "<p>" + p + "</p>"; }).join("") + "</div>" +
+      '<div class="reveal"><dl class="facts">' + facts.map(function (f) { return '<div><dt class="eyebrow">' + f[0] + "</dt><dd>" + f[1] + "</dd></div>"; }).join("") + "</dl></div></div></div></section>";
+  }
+  document.getElementById("mats").innerHTML =
+    sec("01", "Stone", "Weight, and the patience to keep it.", ["Limestone, travertine and basalt. We buy blocks, not slabs, so we can decide where the grain falls and let it carry across an object without a break.", "Every surface is honed rather than polished. A polished stone shows you the room; a honed one shows you the light."], "images/materials/stone.svg", "Layered bands of honed limestone under raking light", "", [["Origin", "Anatolia & Umbria"], ["Finish", "Honed, unsealed"], ["Tolerance", "± 0.2 mm"]]) +
+    sec("02", "Aluminium", "The quietest metal.", ["Aluminium is light in the other sense. It lets us make long, thin forms that hold their line, and it takes anodising, which grows a hard oxide from the metal itself.", "Nothing sits on top of the surface, so nothing can flake, yellow or wear through. It ages by getting softer to the touch."], "images/materials/aluminium.svg", "Brushed aluminium plate with a diagonal band of reflected light", "stone", [["Process", "Billet, spun &amp; milled"], ["Finish", "Matte anodise"], ["Recycled content", "Over 70%"]]) +
+    sec("03", "Diffusion", "Taking the point out of the light.", ["A bare source is a point. A point is something you look at and then look away from. Opal glass spreads it into a field, and a field is something a room can live inside.", "We grind each piece by hand, testing against a lit lamp in a dark room, until the edge of the glow is no longer visible."], "images/materials/diffusion.svg", "Layered warm light diffusing through opal glass", "dark", [["Glass", "Mouth-blown opal"], ["Warmth", "2,200–3,000 K"], ["Colour rendering", "CRI 95+"]]) +
+    sec("04", "Craftsmanship", "Joined by hand, measured twice.", ["Our objects are made in small workshops that already knew how to do these things: stone yards, a spinning lathe, a glass studio. We draw the joins so that the work is shared fairly between them.", "Each piece is numbered, signed on its underside and tested alight before it is crated."], "images/materials/craft.svg", "A technical drawing of concentric circles with one warm disc", "", [["Editions", "40 – 250"], ["Workshops", "Four"], ["Tested", "48 hours alight"]]);
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Object — Köybaşı Hukuk</title>
+<meta name="description" content="Sculptural lighting by Köybaşı Hukuk.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080908">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="product">
+<main id="root"></main>
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+<script>
+window.KH_PAGE = function (KH) {
+  var E = KH.esc, M = KH.money, I = KH.ICON;
+  var slug = new URLSearchParams(location.search).get("slug");
+  var p = KH.bySlug(slug), root = document.querySelector("main");
+  if (!p) {
+    document.title = "Not found — Köybaşı Hukuk";
+    root.innerHTML = '<section class="on-dark" style="min-height:100svh;display:flex;align-items:center;background:var(--night);color:var(--paper)"><div class="shell"><p class="eyebrow" style="margin-bottom:32px">404</p><h1 class="display t9">This room <em class="italic">is dark.</em></h1><a class="link-line" href="objects.html" style="margin-top:56px">Explore Objects</a></div></section>';
+    return;
+  }
+  document.title = p.name + " — Köybaşı Hukuk";
+  var md = document.querySelector('meta[name="description"]'); if (md) md.content = p.description;
+  var related = (function () {
+    var same = KH.P.filter(function (x) { return x.slug !== p.slug && x.category === p.category; });
+    var rest = KH.P.filter(function (x) { return x.slug !== p.slug && x.category !== p.category; });
+    return same.concat(rest).slice(0, 3);
+  })();
+  var no = p.id.replace("kh-", "No. ");
+  var acc = [
+    ["shipping", "Shipping", "<p>Each object is made to order and crated by hand. Lead time is " + E(p.leadTime) + ", followed by insured, tracked delivery with white-glove placement for pieces above 20 kg. Duties are confirmed with you before dispatch.</p>"],
+    ["care", "Care", "<p>Dust with a dry, soft cloth. Stone is unsealed on purpose; wipe spills at once and avoid acidic cleaners. Anodised aluminium can be cleaned with a damp cloth and a drop of neutral soap. Opal glass should be cool and unplugged before cleaning.</p>"],
+    ["specs", "Specifications", "<ul><li>Weight: " + E(p.weight) + "</li><li>Luminous flux: " + p.light.lumens + " lm</li><li>Colour temperature: " + p.light.kelvin.toLocaleString("en-GB") + ' K</li><li><a href="#specifications" style="text-decoration:underline;text-underline-offset:4px">Full specification below</a></li></ul>'],
+    ["downloads", "Downloads", '<p>Technical sheet, light distribution file (IES) and installation guide are sent on request. <a style="text-decoration:underline;text-underline-offset:4px" href="mailto:studio@koybasihukuk.com?subject=' + encodeURIComponent(p.name + " — technical sheet") + '">Write to the studio</a>.</p>']
+  ];
+  root.innerHTML =
+  '<section style="padding:112px 0 112px" aria-labelledby="product-title"><div class="shell">' +
+    '<nav aria-label="Breadcrumb"><ol class="crumbs eyebrow"><li><a href="objects.html">Objects</a></li><li aria-hidden="true">/</li><li aria-current="page" style="color:var(--ink)">' + E(p.name) + '</li></ol></nav>' +
+    '<div class="g12" style="gap:56px">' +
+      '<div class="gal" style="grid-column:span 7;min-width:0"><div role="group" aria-roledescription="gallery" aria-label="' + E(p.name) + ' images" id="gallery"><div class="gallery-main">' +
+        p.images.map(function (im, i) { return '<img src="' + im.src + '" alt="' + E(im.alt) + '"' + (i === 0 ? ' class="on"' : ' aria-hidden="true"') + ' width="1200" height="1500">'; }).join("") +
+        '<p class="count" aria-live="polite" id="count">01 / 03</p></div>' +
+        '<ul class="thumbs">' + p.images.map(function (im, i) { return '<li><button type="button" data-i="' + i + '" aria-label="Show image ' + (i + 1) + ' of 3"' + (i === 0 ? ' aria-current="true"' : "") + '><img src="' + im.src + '" alt=""></button></li>'; }).join("") + "</ul></div></div>" +
+      '<div class="pinfo" style="grid-column:span 5;min-width:0"><div>' +
+        '<p class="eyebrow">' + no + " · " + p.category + " · " + E(p.edition) + '</p>' +
+        '<h1 id="product-title" class="display" style="font-size:clamp(4.5rem,9vw,7rem);margin-top:20px">' + E(p.name) + '</h1>' +
+        '<p style="margin-top:16px;font-family:var(--serif);font-size:1.5rem;font-weight:300;font-style:italic;color:var(--muted-strong)">' + E(p.tagline) + '</p>' +
+        '<p style="margin-top:40px;font-family:var(--serif);font-size:1.9rem;font-weight:300">' + M(p.price) + '</p>' +
+        '<p style="margin-top:32px;max-width:440px;font-size:16px;line-height:1.75;color:rgba(32,33,31,.8)">' + E(p.description) + '</p>' +
+        '<dl class="rows" style="margin-top:40px"><div><dt class="eyebrow">Materials</dt><dd>' + E(p.materials.join(", ")) + '</dd></div><div><dt class="eyebrow">Dimensions</dt><dd>' + E(p.dimensions) + '</dd></div><div><dt class="eyebrow">Lead time</dt><dd>' + E(p.leadTime) + '</dd></div></dl>' +
+        '<div style="margin-top:40px;display:flex;gap:16px"><div class="qty" role="group" aria-label="Quantity"><button type="button" id="qm" aria-label="Decrease quantity" disabled>' + I.minus + '</button><span id="qv" aria-live="polite" aria-atomic="true">1</span><button type="button" id="qp" aria-label="Increase quantity">' + I.plus + '</button></div><button class="btn" type="button" id="add" style="flex:1">Add to Bag</button></div>' +
+        '<p style="margin-top:16px;font-size:12px;color:var(--muted-strong)">Made to order. Lead time ' + E(p.leadTime) + '.</p><p class="sr-only" role="status" aria-live="polite" id="msg"></p>' +
+        '<div class="acc" id="acc">' + acc.map(function (a, i) {
+          var open = i === 0;
+          return '<div><h3 style="font-family:var(--sans)"><button type="button" data-acc aria-expanded="' + open + '" aria-controls="p-' + a[0] + '" id="b-' + a[0] + '">' + a[1] + "<span>" + (open ? I.minus : I.plus) + '</span></button></h3><div class="pn" data-open="' + open + '"><div id="p-' + a[0] + '" role="region" aria-labelledby="b-' + a[0] + '">' + a[2] + "</div></div></div>";
+        }).join("") + "</div>" +
+      "</div></div></div></div></section>" +
+
+  '<section class="on-dark" style="position:relative;overflow:hidden;background:var(--night);color:var(--paper)" aria-labelledby="light-title"><div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 75% 50%,rgba(244,220,160,.1),transparent 70%)"></div>' +
+    '<div class="shell g12" style="position:relative;padding-top:112px;padding-bottom:112px;align-items:center;gap:64px"><div class="reveal" style="grid-column:span 5"><p class="eyebrow" style="margin-bottom:24px">Light studies</p><h2 id="light-title" class="display t6">' + E(p.name) + ', in the dark.</h2><p class="body" style="margin-top:40px;max-width:440px">' + E(p.lightNotes) + '</p>' +
+    '<dl class="studies"><div><dt class="eyebrow">Output</dt><dd>' + p.light.lumens + ' lm</dd></div><div><dt class="eyebrow">Warmth</dt><dd>' + p.light.kelvin.toLocaleString("en-GB") + ' K</dd></div><div><dt class="eyebrow">Rendering</dt><dd>CRI ' + p.light.cri + "</dd></div></dl></div>" +
+    '<div style="grid-column:span 7;min-width:0">' + KH.parallaxFrame(p.images[1].src, p.images[1].alt, "ar45") + "</div></div></section>" +
+
+  '<section style="padding:112px 0" aria-labelledby="material-title"><div class="shell g12" style="align-items:start;gap:64px"><div style="grid-column:span 6;min-width:0">' + KH.parallaxFrame(p.images[2].src, p.images[2].alt, "ar45") + "</div>" +
+    '<div style="grid-column:8/13"><div class="reveal"><p class="eyebrow" style="margin-bottom:24px">Material details</p><h2 id="material-title" class="display t6">What it is made of.</h2></div>' +
+    '<ul class="mlist">' + p.materials.map(function (m) { return '<li class="reveal"><h3>' + E(m) + "</h3><p>" + E(window.MATERIAL_NOTES[m] || "") + "</p></li>"; }).join("") + "</ul>" +
+    '<div class="body" style="margin-top:48px;display:grid;gap:20px;font-size:16px">' + p.story.map(function (s) { return "<p>" + E(s) + "</p>"; }).join("") + "</div></div></div></section>" +
+
+  '<section id="specifications" style="scroll-margin-top:96px;border-top:1px solid var(--line);padding:112px 0" aria-labelledby="spec-title"><div class="shell g12" style="gap:48px"><div class="reveal" style="grid-column:span 4"><p class="eyebrow" style="margin-bottom:24px">Specifications</p><h2 id="spec-title" class="display t5">In detail.</h2></div>' +
+    '<dl class="specs" style="grid-column:span 8">' + p.specifications.map(function (s) { return '<div><dt class="eyebrow">' + E(s.label) + '</dt><dd style="text-align:right">' + E(s.value) + "</dd></div>"; }).join("") + "</dl></div></section>" +
+
+  '<section style="padding:0 0 128px" aria-labelledby="related-title"><div class="shell"><div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:64px"><h2 id="related-title" class="display t6">Related objects</h2><a class="link-line" href="objects.html">All objects</a></div><ul class="cards c3" style="gap:64px 40px">' + related.map(function (x) { return "<li>" + KH.card(x, 5) + "</li>"; }).join("") + "</ul></div></section>" +
+  '<style>@media(max-width:1023px){.g12>*{grid-column:1/-1!important}}</style>';
+
+  // gallery
+  var imgs = KH.$$(".gallery-main img"), th = KH.$$(".thumbs button"), cur = 0;
+  function show(i) {
+    cur = (i + imgs.length) % imgs.length;
+    imgs.forEach(function (im, k) { im.classList.toggle("on", k === cur); k === cur ? im.removeAttribute("aria-hidden") : im.setAttribute("aria-hidden", "true"); });
+    th.forEach(function (b, k) { k === cur ? b.setAttribute("aria-current", "true") : b.removeAttribute("aria-current"); });
+    document.getElementById("count").textContent = String(cur + 1).padStart(2, "0") + " / " + String(imgs.length).padStart(2, "0");
+  }
+  th.forEach(function (b) { b.addEventListener("click", function () { show(+b.dataset.i); }); });
+  document.getElementById("gallery").addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") { e.preventDefault(); show(cur + 1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); show(cur - 1); }
+  });
+  // quantity + add
+  var q = 1, qv = document.getElementById("qv"), qm = document.getElementById("qm"), qp = document.getElementById("qp");
+  function setQ(n) { q = Math.min(9, Math.max(1, n)); qv.textContent = q; qm.disabled = q <= 1; qp.disabled = q >= 9; }
+  qm.addEventListener("click", function () { setQ(q - 1); });
+  qp.addEventListener("click", function () { setQ(q + 1); });
+  document.getElementById("add").addEventListener("click", function () {
+    KH.Cart.add(p.slug, q);
+    document.getElementById("msg").textContent = q + " × " + p.name + " added to your bag.";
+    KH.Cart.open();
+  });
+  KH.accordion(document.getElementById("acc"));
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Objects — Köybaşı Hukuk</title>
+<meta name="description" content="The complete collection of sculptural lighting: pendants, table, floor and wall pieces in stone, aluminium and opal glass.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080908">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="objects">
+<main>
+  <div style="padding:144px 0 128px">
+    <div class="shell">
+      <div class="reveal g12" style="margin-bottom:96px">
+        <div style="grid-column:span 8"><p class="eyebrow" style="margin-bottom:24px">Objects · 12 pieces</p><h1 class="display t9">The collection</h1></div>
+        <p class="body" style="grid-column:span 4;max-width:380px;align-self:end">Pendants, table, floor and wall pieces, each made in small editions and finished by hand.</p>
+      </div>
+      <div class="controls">
+        <div class="filters" role="group" aria-label="Filter by type" id="filters"></div>
+        <div class="ctl-right">
+          <label class="ctl-label">Sort
+            <select id="sort"><option value="featured">Curated</option><option value="price-asc">Price, low to high</option><option value="price-desc">Price, high to low</option><option value="name">Name</option></select>
+          </label>
+          <div role="group" aria-label="Grid size">
+            <button class="tog" type="button" id="c2" aria-pressed="true" aria-label="Large grid, two columns"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><rect x="4" y="4" width="16" height="16"/></svg></button>
+            <button class="tog" type="button" id="c3" aria-pressed="false" aria-label="Compact grid, three columns"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <p class="sr-only" role="status" aria-live="polite" id="status"></p>
+      <ul class="cards c2" id="grid"></ul>
+    </div>
+  </div>
+</main>
+<style>@media(max-width:1023px){.reveal.g12>*{grid-column:1/-1!important}}#grid{transition:opacity .9s var(--ease)}</style>
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+<script>
+window.KH_PAGE = function (KH) {
+  var P = KH.P, filter = "All", sort = "featured", cols = 2;
+  var cats = ["All"].concat(["Pendant", "Table", "Floor", "Wall"].filter(function (c) { return P.some(function (p) { return p.category === c; }); }));
+  var hash = decodeURIComponent(location.hash.slice(1)); if (cats.indexOf(hash) > 0) filter = hash;
+  var fEl = document.getElementById("filters"), gEl = document.getElementById("grid");
+  function n(c) { return c === "All" ? P.length : P.filter(function (p) { return p.category === c; }).length; }
+  function draw() {
+    fEl.innerHTML = cats.map(function (c) { return '<button type="button" data-f="' + c + '" aria-pressed="' + (c === filter) + '">' + c + "<sup aria-hidden=\"true\">" + n(c) + "</sup></button>"; }).join("");
+    var list = filter === "All" ? P.slice() : P.filter(function (p) { return p.category === filter; });
+    if (sort === "price-asc") list.sort(function (a, b) { return a.price - b.price; });
+    if (sort === "price-desc") list.sort(function (a, b) { return b.price - a.price; });
+    if (sort === "name") list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    gEl.className = "cards " + (cols === 2 ? "c2" : "c3 mobile2");
+    gEl.style.opacity = 0;
+    gEl.innerHTML = list.map(function (p, i) { return "<li>" + KH.card(p, i) + "</li>"; }).join("");
+    requestAnimationFrame(function () { gEl.style.opacity = 1; });
+    document.getElementById("status").textContent = "Showing " + list.length + (list.length === 1 ? " object" : " objects");
+    document.getElementById("c2").setAttribute("aria-pressed", cols === 2);
+    document.getElementById("c3").setAttribute("aria-pressed", cols === 3);
+    fEl.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { filter = b.dataset.f; draw(); var nb = fEl.querySelector('[data-f="' + filter + '"]'); if (nb) nb.focus(); }); });
+  }
+  document.getElementById("sort").addEventListener("change", function (e) { sort = e.target.value; draw(); });
+  document.getElementById("c2").addEventListener("click", function () { cols = 2; draw(); });
+  document.getElementById("c3").addEventListener("click", function () { cols = 3; draw(); });
+  draw();
+};
+</script>
+</body>
+</html>

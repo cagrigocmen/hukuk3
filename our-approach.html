@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Our Approach — Köybaşı Hukuk</title>
+<meta name="description" content="How we design: from the room, through the material, to the quiet moment when an object is lit.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080908">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="approach">
+<main>
+  <header class="shell" style="padding-top:176px;padding-bottom:96px">
+    <div class="reveal">
+      <p class="eyebrow" style="margin-bottom:32px">Our Approach</p>
+      <h1 class="display t9" style="max-width:1100px">A light is mostly <em class="italic">what it leaves dark.</em></h1>
+    </div>
+  </header>
+  <div class="shell g12" style="padding-bottom:160px;gap:64px">
+    <nav class="toc" aria-label="Chapters" style="grid-column:span 3">
+      <ol>
+        <li><a href="#process"><span>01</span>Design process</a></li>
+        <li><a href="#material"><span>02</span>Material thinking</a></li>
+        <li><a href="#form-light"><span>03</span>Form and light</a></li>
+        <li><a href="#craft"><span>04</span>Craft and precision</a></li>
+        <li><a href="#future"><span>05</span>Future collections</a></li>
+      </ol>
+    </nav>
+    <div id="chapters" style="grid-column:span 9;display:grid;gap:200px;min-width:0"></div>
+  </div>
+  <section style="border-top:1px solid var(--line);padding:112px 0;text-align:center">
+    <div class="reveal shell"><p class="lede" style="max-width:640px;margin:0 auto">The work is easier to understand in the room.</p><a class="link-line" href="objects.html" style="margin-top:48px">Explore Objects</a></div>
+  </section>
+</main>
+<style>@media(max-width:1023px){.shell.g12>*{grid-column:1/-1!important}}</style>
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+<script>
+window.KH_PAGE = function (KH) {
+  function ch(idx, id, title, paras, img) {
+    return '<div class="stack"><section id="' + id + '" class="chap reveal" aria-labelledby="' + id + '-t"><p class="eyebrow" style="margin-bottom:24px">' + idx + '</p><h2 id="' + id + '-t" class="display t6">' + title + '</h2><div class="body" style="margin-top:40px;max-width:560px;display:grid;gap:24px">' +
+      paras.map(function (p) { return "<p>" + p + "</p>"; }).join("") + "</div></section>" +
+      (img ? KH.parallaxFrame(img[0], img[1], "ar1610") : "") + "</div>";
+  }
+  document.getElementById("chapters").innerHTML =
+    ch("01", "process", "Design process", ["Every object begins in a room we have stood in. We note where the light comes from at nine in the morning, where it is missing at six in the evening, and which wall nobody looks at but everyone leans on.", "Then we draw. Often a single curve, a circle and a line. We make the form in clay and card until it is the one we would not change, and only then decide what it is made of."], ["images/approach/process.svg", "Concentric construction arcs and one warm point"]) +
+    ch("02", "material", "Material thinking", ["We choose the material before the mechanism. Stone because it is heavy and honest. Aluminium because it can be thin and exact. Opal glass because it is the only thing that can make a source disappear.", "When a material is right, the object needs very little else. We try to remove everything that is not the material."], ["images/materials/stone.svg", "Honed limestone under raking light"]) +
+    ch("03", "form-light", "The relationship between form and light", ["Form decides where light can go. A cone throws it down, an arc hands it to the wall, a sphere keeps it. We think of each shape as a set of instructions for the light inside it.", "The other half of the relationship is what the form withholds. The dark part of an object is as designed as the lit part, and usually harder to get right."], ["images/approach/form-light.svg", "A dark cone throwing a wedge of warm light across a room"]) +
+    ch("04", "craft", "Craft and precision", ["A join is a promise. If a stone meets a metal at an angle, the angle is ours to keep, and the workshops that make our objects work to a fifth of a millimetre.", "We prefer small editions because they let us stay in the workshop. Every object is numbered, tested alight for two days and wrapped by the person who checked it."], null) +
+    ch("05", "future", "Future collections", ["Next we are working on larger things: a suspended piece for double-height rooms, and a stone that gives light through its whole body rather than through an opening.", "We release collections slowly and retire them just as slowly. If you want something that is no longer listed, write to us. The moulds are still here."], ["images/approach/future.svg", "A grid of simple forms with one lit"]);
+};
+</script>
+</body>
+</html>
